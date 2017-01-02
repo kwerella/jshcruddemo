@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <h1>Student Details Page</h1>
+        <hr/>
+        <h3>List of Students</h3>
+        <h:form rendered="#{not empty studentCRUDBean.students}">
+            <h:dataTable value="#{studentCRUDBean.students}" var="student">
+                <h:column><f:facet name="header">ID</f:facet>#{student.id}</h:column>
+                <h:column><f:facet name="header">First Name</f:facet>#{student.firstName}</h:column>
+                <h:column><f:facet name="header">Last Name</f:facet>#{student.lastName}</h:column>
+                <h:column>
+                    <h:commandButton value="Edit" action="#{studentCRUDBean.edit(student)}"/>
+                </h:column>
+                <h:column>
+                    <h:commandButton value="Delete" action="#{studentCRUDBean.delete(student)}"/>
+                </h:column>                
+            </h:dataTable>                        
+        </h:form>
+
+        <h:panelGroup rendered="#{empty studentCRUDBean.students}">
+            <p> There are no students inside the list. Please add students!</p>
+        </h:panelGroup>
+
+        <!-- Rendered two forms one for adding a new student and one for editiing the student details -->
+
+        <!-- Render for adding -->
+        <h:panelGroup rendered="#{not studentCRUDBean.editStudent}">
+            <h3>Add New Student</h3>
+            <hr/>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel for="firstName" value="Enter First Name"/>
+                    <h:inputText id="firstName" value="#{studentCRUDBean.student.firstName}"/>
+                    <h:outputLabel for="lastName" value="Enter Last Name"/>
+                    <h:inputText id="lastName" value="#{studentCRUDBean.student.lastName}"/>
+                    <h:commandButton value="Add Student" action="#{studentCRUDBean.add}"/>
+                    <h:commandButton value="Reset" action="#{studentCRUDBean.resetAdd}"/>
+                </h:panelGrid>
+            </h:form>
+        </h:panelGroup>
+
+        <h:panelGroup rendered="#{studentCRUDBean.editStudent}">
+            <h3>Edit Student #{studentCRUDBean.student.id}</h3>
+            <hr/>
+
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel for="firstName" value="Enter First Name"/>
+                    <h:inputText id="firstName" value="#{studentCRUDBean.student.firstName}"/>
+                    <h:outputLabel for="lastName" value="Enter Last Name"/>
+                    <h:inputText id="lastName" value="#{studentCRUDBean.student.lastName}"/>
+                    <h:commandButton value="Edit Student" action="#{studentCRUDBean.saveEdit}"/>
+                    <h:commandButton value="Reset" action="#{studentCRUDBean.cancelEdit}"/>
+                </h:panelGrid>
+            </h:form>
+
+        </h:panelGroup>
+
+
+    </h:body>
+</html>
+
